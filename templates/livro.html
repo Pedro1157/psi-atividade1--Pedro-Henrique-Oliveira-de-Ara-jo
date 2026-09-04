@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{% block titulo %}{{ livro.titulo }}{% endblock %}
+
+{% block conteudo %}
+<h2>{{ livrro.titulo }}</h2>
+<p><strong>autor:</strong> {{ livro.autor }}</p>
+<p><strong>ano de publicação:</strong> {{ livro.ano }}</p>
+<p><strong>categoria:</strong> {{ livro.genero }}</p>
+
+<h3>escreva sua resenha</h3>
+<form method="POST" action="{{ url_for('resenhar', livro_id=livro.id) }}">
+    <p>
+        <label for="texto">Sua opinião:</label><br>
+        <textarea name="texto" id="texto" rows="4" cols="50"></textarea>
+    </p>
+
+    <p>
+        <label for="nota">nota:</label>
+        <select name="nota" id="nota">
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+        </select>
+    </p>
+
+    <button type="submit">Enviar resenha</button>
+</form>
+
+<h3>opiniões dos leitores</h3>
+{% if resenhas %}
+<ul>
+    {% for resenha in resenhas %}
+    <li>
+        <strong>{{ resenha.usuario }}</strong> (nota {{ resenha.nota }}):
+        {{ resenha.texto }}
+    </li>
+    {% endfor %}
+</ul>
+{% else %}
+<p>ainnda não há opiniões registradas para esta obra.</p>
+{% endif %}
+{% endblock %}

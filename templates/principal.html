@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block titulo %}Catálogo de livros{% endblock %}
+
+{% block conteudo %}
+<h2>Catálogo de livros</h2>
+<p>Escolha uma obra para consultar seus detalhes e avaliações.</p>
+<ul>
+    {% for livro in livros %}
+    <li class="card">
+        <a href="{{ url_for('detalhe_livro', livro_id=livro.id) }}">{{ livro.titulo }}</a>
+        — {{ livro.autor }} ({{ livro.ano }})
+    </li>
+    {% endfor %}
+</ul>
+{% endblock %}
