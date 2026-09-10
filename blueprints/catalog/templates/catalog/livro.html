@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block titulo %}{{ livro.titulo }}{% endblock %}
+
+{% block conteudo %}
+    <h1>{{ livro.titulo }}</h1>
+    <p><strong>aautor:</strong> {{ livro.autor }}</p>
+    <p><strong>ano:</strong> {{ livro.ano }}</p>
+    <p><strong>gênero:</strong> {{ livro.genero }}</p>
+
+    {% if session.usuario %}
+        <h2>escrever resenha</h2>
+        <form method="post" action="{{ url_for('reviews.resenhar', livro_id=livro.id) }}">
+            <textarea name="texto" rows="4" placeholder="Sua opinião sobre o livro" required></textarea>
+            <label for="nota">nota:</label>
+            <select name="nota" id="nota">
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+            </select>
+            <button type="submit">enviar resenha</button>
+        </form>
+    {% else %}
+        <p><a href="{{ url_for('auth.login') }}">faça login</a> para escrever uma resenha.</p>
+    {% endif %}
+
+    <h2>resenhas</h2>
+    {% for resenha in resenhas %}
+        <div class="card">
+            <p><strong>{{ resenha.usuario }}</strong> — Nota: {{ resenha.nota }}/5</p>
+            <p>{{ resenha.texto }}</p>
+        </div>
+    {% else %}
+        <p>nenhuma resenha ainda</p>
+    {% endfor %}
+{% endblock %}
